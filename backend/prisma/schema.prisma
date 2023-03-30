@@ -1,3 +1,10 @@
+generator erd {
+  provider                  = "prisma-erd-generator"
+  output                    = env("DATABASE_ERD")
+  theme                     = "default"
+  includeRelationFromFields = true
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -23,18 +30,18 @@ model Instance {
   instance_name     String
   createdAt         DateTime            @default(now())
   CustomerInstances CustomerInstances[]
-  InstanceItems     InstanceItems[]
+  InstanceFragments InstanceFragments[]
 
   @@map("instance")
 }
 
-model Item {
-  id            String          @id @default(uuid())
-  data          String
-  CreatedAt     DateTime        @default(now())
-  InstanceItems InstanceItems[]
+model Fragment {
+  id                String              @id @default(uuid())
+  data              String
+  createdAt         DateTime            @default(now())
+  InstanceFragments InstanceFragments[]
 
-  @@map("item")
+  @@map("fragment")
 }
 
 model Template {
@@ -46,7 +53,7 @@ model Template {
 }
 
 model CustomerInstances {
-  id String @id @default(uuid())
+  id             String   @id @default(uuid())
   instance_id    String
   instance       Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
   customer_token String
@@ -55,12 +62,12 @@ model CustomerInstances {
   @@map("customer_instances")
 }
 
-model InstanceItems {
+model InstanceFragments {
   id          String   @id @default(uuid())
   instance_id String
   instance    Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
-  item_id     String
-  item        Item     @relation(fields: [item_id], references: [id], onDelete: Cascade)
+  fragment_id String
+  fragment    Fragment @relation(fields: [fragment_id], references: [id], onDelete: Cascade)
 
-  @@map("instance_items")
+  @@map("instance_fragments")
 }
