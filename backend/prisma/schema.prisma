@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id            String            @id @default(uuid())
+  ip            String            @unique
+  request_caunt Int
+  validade      DateTime          @default(now())
+  Entity        ClientInstancia[]
+
+  @@map("_clients")
+}
+
+model Instancia {
+  id              String            @id @default(uuid())
+  InstanciaName   String            @unique
+  Entity          ClientInstancia[]
+  InstanciaEntity InstanciaEntity[]
+
+  @@map("_instancias")
+}
+
+model ClientInstancia {
+  id           String    @id @default(uuid())
+  id_cliet     String
+  client       Client    @relation(fields: [id_cliet], references: [id], onDelete: Cascade)
+  id_instancia String
+  instancia    Instancia @relation(fields: [id_instancia], references: [id], onDelete: Cascade)
+
+  @@map("_client_instancias")
+}
+
+model Entity {
+  id              String            @id @default(uuid())
+  entityValue     String
+  InstanciaEntity InstanciaEntity[]
+
+  @@map("_entitys")
+}
+
+model InstanciaEntity {
+  id           String    @id @default(uuid())
+  id_instancia String
+  instancia    Instancia @relation(fields: [id_instancia], references: [id], onDelete: Cascade)
+  id_entity    String
+  entity       Entity    @relation(fields: [id_entity], references: [id], onDelete: Cascade)
+
+  @@map("_instancia_entity")
+}
