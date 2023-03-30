@@ -10,7 +10,7 @@ datasource db {
 model Customer {
   id                String              @id @default(uuid())
   ip                String
-  token             String              @default(uuid())
+  token             String              @unique @default(uuid())
   requests          Int                 @default(0)
   createdAt         DateTime            @default(now())
   CustomerInstances CustomerInstances[]
@@ -47,11 +47,10 @@ model Template {
 
 model CustomerInstances {
   id String @id @default(uuid())
-
-  instance_id String
-  instance    Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
-  customer_id String
-  customer    Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  instance_id    String
+  instance       Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
+  customer_token String
+  customer       Customer @relation(fields: [customer_token], references: [token], onDelete: Cascade)
 
   @@map("customer_instances")
 }
