@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { valideteService } from './validete.service';
+import { VerificationService } from './verification.service';
 
 @Module({
   controllers: [],
-  providers: [valideteService, PrismaService],
+  providers: [VerificationService, PrismaService],
 })
 export class InstanciaModule {}

@@ -47,7 +47,6 @@ model Template {
 
 model CustomerInstances {
   id String @id @default(uuid())
-
   instance_id    String
   instance       Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
   customer_token String
