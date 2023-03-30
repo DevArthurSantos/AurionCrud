@@ -7,49 +7,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Client {
-  id            String            @id @default(uuid())
-  ip            String            @unique
-  request_caunt Int
-  validade      DateTime          @default(now())
-  Entity        ClientInstancia[]
+model Customer {
+  id                String              @id @default(uuid())
+  ip                String
+  token             String              @unique @default(uuid())
+  requests          Int                 @default(0)
+  createdAt         DateTime            @default(now())
+  CustomerInstances CustomerInstances[]
 
-  @@map("_clients")
+  @@map("customer")
 }
 
-model Instancia {
-  id              String            @id @default(uuid())
-  InstanciaName   String            @unique
-  Entity          ClientInstancia[]
-  InstanciaEntity InstanciaEntity[]
+model Instance {
+  id                String              @id @default(uuid())
+  instance_name     String
+  createdAt         DateTime            @default(now())
+  CustomerInstances CustomerInstances[]
+  InstanceItems     InstanceItems[]
 
-  @@map("_instancias")
+  @@map("instance")
 }
 
-model ClientInstancia {
-  id           String    @id @default(uuid())
-  id_cliet     String
-  client       Client    @relation(fields: [id_cliet], references: [id], onDelete: Cascade)
-  id_instancia String
-  instancia    Instancia @relation(fields: [id_instancia], references: [id], onDelete: Cascade)
+model Item {
+  id            String          @id @default(uuid())
+  data          String
+  CreatedAt     DateTime        @default(now())
+  InstanceItems InstanceItems[]
 
-  @@map("_client_instancias")
+  @@map("item")
 }
 
-model Entity {
-  id              String            @id @default(uuid())
-  entityValue     String
-  InstanciaEntity InstanciaEntity[]
+model Template {
+  id   String @id @default(uuid())
+  type String
+  data String
 
-  @@map("_entitys")
+  @@map("template")
 }
 
-model InstanciaEntity {
-  id           String    @id @default(uuid())
-  id_instancia String
-  instancia    Instancia @relation(fields: [id_instancia], references: [id], onDelete: Cascade)
-  id_entity    String
-  entity       Entity    @relation(fields: [id_entity], references: [id], onDelete: Cascade)
+model CustomerInstances {
+  id String @id @default(uuid())
 
-  @@map("_instancia_entity")
+  instance_id    String
+  instance       Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
+  customer_token String
+  customer       Customer @relation(fields: [customer_token], references: [token], onDelete: Cascade)
+
+  @@map("customer_instances")
+}
+
+model InstanceItems {
+  id          String   @id @default(uuid())
+  instance_id String
+  instance    Instance @relation(fields: [instance_id], references: [id], onDelete: Cascade)
+  item_id     String
+  item        Item     @relation(fields: [item_id], references: [id], onDelete: Cascade)
+
+  @@map("instance_items")
 }
