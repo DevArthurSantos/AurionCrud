@@ -1,25 +1,32 @@
-import { ReactNode } from "react";
-import {TypeSmallV1, TypeMediumV1, TypeBigV1, TypeSmallV2, TypeMediumV2, TypeBigV2} from "./styled";
+import { ReactNode } from 'react';
+import { Paragraph as ParagraphStyled } from './styled';
 
-interface paragraphProps {
-  type: string;
-  variante: string;
-  children: ReactNode;
+export enum ParagraphType {
+  Default = 'default',
+  Darker = 'darker',
+  Orange = 'orange',
 }
 
-export default function Paragraph({ type, variante, children }: paragraphProps) {
-  const v1: any = {
-    Small: TypeSmallV1,
-    Medium: TypeMediumV1,
-    Big: TypeBigV1,
-  };
+export enum ParagraphVariant {
+  Small = '.5rem',
+  Medium = '1.2rem',
+  Large = '2.5rem',
+}
 
-  const v2: any = {
-    Small: TypeSmallV2,
-    Medium: TypeMediumV2,
-    Big: TypeBigV2,
-  };
-  
-  const Component =  variante === "1" ? v1[type] : v2[type];
-  return <Component>{children}</Component>;
+export type ParagraphProps = {
+  type?: ParagraphType;
+  variant?: ParagraphVariant;
+  children: ReactNode;
+};
+
+export default function Paragraph({
+	type = ParagraphType.Default,
+	variant = ParagraphVariant.Small,
+	children,
+}: ParagraphProps) {
+	return (
+		<ParagraphStyled type={type} variant={variant}>
+			{children}
+		</ParagraphStyled>
+	);
 }

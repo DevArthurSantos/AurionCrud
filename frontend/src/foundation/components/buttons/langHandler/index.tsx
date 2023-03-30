@@ -3,11 +3,11 @@ import { parseCookies } from 'nookies';
 import { useEffect, useRef, useState } from 'react';
 import Button from './styled';
 
-interface ThemeHandlerProps {
-  themeHandlerState(): void
+interface LangHandlerProps {
+  langHandler(): void
 }
 
-export default function ThemeHandler({ themeHandlerState }: ThemeHandlerProps) {
+export default function LangHandler({ langHandler }: LangHandlerProps) {
 
 	const buttonRef = useRef<any>(null);
 	const [verifiTheme, setVerifiTheme] = useState(false);
@@ -21,7 +21,7 @@ export default function ThemeHandler({ themeHandlerState }: ThemeHandlerProps) {
 	return (
 		<Button ref={buttonRef} onClick={() => {
 			setVerifiTheme(!verifiTheme);
-			themeHandlerState();
+			langHandler();
 		}}>
 		</Button>
 	);

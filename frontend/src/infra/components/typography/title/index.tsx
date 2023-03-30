@@ -1,25 +1,29 @@
-import { ReactNode } from "react";
-import {TypeSmallV1, TypeMediumV1, TypeBigV1, TypeSmallV2, TypeMediumV2, TypeBigV2} from "./styled";
+import { ReactNode } from 'react';
+import { Title as TitleStyled } from './styled';
 
-interface TitleProps {
-  type: string;
-  variante: string;
-  children: ReactNode;
+export enum TitlehType {
+  Default = 'rgba(112, 87, 148, 1)',
+  Darker = 'rgba(75, 52, 108, 1)',
+  Orange = 'rgba(240, 120, 120, 1)',
 }
 
-export default function Title({ type, variante, children }: TitleProps) {
-  const v1: any = {
-    Small: TypeSmallV1,
-    Medium: TypeMediumV1,
-    Big: TypeBigV1,
-  };
+export enum TitleVariant {
+  Small = '.8rem',
+  Medium = '1.3rem',
+  Large = '2.2rem',
+}
 
-  const v2: any = {
-    Small: TypeSmallV2,
-    Medium: TypeMediumV2,
-    Big: TypeBigV2,
-  };
-  
-  const Component =  variante === "1" ? v1[type] : v2[type];
-  return <Component>{children}</Component>;
+
+export type TitleProps = { 
+  type?: TitlehType;
+  variant?: TitleVariant;
+  children: ReactNode;
+};
+
+export default function Title({ type = TitlehType.Default, variant = TitleVariant.Small, children, }: TitleProps) {
+	return (
+		<TitleStyled type={type} variant={variant}>
+			{children}
+		</TitleStyled>
+	);
 }

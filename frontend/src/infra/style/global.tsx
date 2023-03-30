@@ -1,8 +1,21 @@
-'use client';
+import { createGlobalStyle } from 'styled-components';
 
-import { createGlobalStyle } from 'styled-components'
+type GlobalDefaultTheme = {
+  theme: {
+    title: string,
+    icon: string,
+    colors: {
+      primary: string,
+      secondary: string,
+      tertiary: string,
+      text: string,
+      textDarker: string,
+      backgraund: string,
+    }
+  }
+}
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle<GlobalDefaultTheme>`
   body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
@@ -19,7 +32,6 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
   }
@@ -31,6 +43,11 @@ export const GlobalStyle = createGlobalStyle`
   body {
     line-height: 1;
     font-size: 62.5%;
+    background: ${(props) => props.theme.colors.backgraund};
+    font-family: var(--next-font);
+    height: 100vh;
+    max-width: 1920px;
+    margin: 0 auto;
   }
   ol, ul {
     list-style: none;
@@ -47,7 +64,7 @@ export const GlobalStyle = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
-`
+`;
 
-export default { GlobalStyle }
+export default GlobalStyle;
 
