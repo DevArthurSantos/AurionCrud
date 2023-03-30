@@ -1,4 +1,9 @@
-import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  INestApplication,
+  Injectable,
+  OnModuleInit,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
@@ -8,25 +13,27 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async requestIncrement(id: string) {
-    const client = await this.client.findFirst({
+    const customer = await this.customer.findFirst({
       where: {
         id,
       },
     });
 
-    if (client.request_caunt >= 101) {
-      return client.request_caunt;
-    } else {
-      const clientUpdate = await this.client.update({
-        data: {
-          request_caunt: client.request_caunt + 1,
-        },
-        where: {
-          id,
-        },
-      });
-      return clientUpdate.request_caunt;
+    if (customer.requests === 100) {
+      throw new BadRequestException(
+        `O Cliente atingiu o numero de "${customer.requests}" solicitações!`,
+      );
     }
+
+    const customerUpdate = await this.customer.update({
+      data: {
+        requests: customer.requests + 1,
+      },
+      where: {
+        id,
+      },
+    });
+    return customerUpdate.requests;
   }
 
   async enableShutdownHooks(app: INestApplication) {
