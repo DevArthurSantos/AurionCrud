@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { VerificationService } from '../verification/verification.service';
+import { InstanceDTO } from './dto/instance.dto';
 import { InstanceCreateDTO } from './dto/instanceCreate.dto';
 import { InstanceShaveDTO } from './dto/InstanceShave.dto';
 
@@ -35,6 +37,34 @@ export class InstanceService {
     return newInstace;
   }
 
+  async scrapeInstance(instance: InstanceDTO) {
+    const instanceFind = await this.Verification.InstanceVerification(
+      instance,
+      { BadRequest: true, ExistsOrNoExist: 'not-existing' },
+    );
+    
+    const instanceScrape = await this.Prisma.instanceFragments.findMany({
+      where:{ 
+        instance: {
+          id: instanceFind.id
+        }
+      },
+      select: {
+        fragment: true
+      }
+    })
+
+    const res = instanceScrape.map((instance) => {
+      return {
+        intanceID: instance.fragment.id,
+        createdAt: instance.fragment.createdAt,
+        data: JSON.parse(instance.fragment.data)
+      }
+    })
+
+    return res
+  }
+
   async eraseInstance(instance: InstanceShaveDTO) {
     const eraseInstance = await this.Verification.InstanceVerification(
       instance,
@@ -43,7 +73,7 @@ export class InstanceService {
 
     await this.Prisma.instance.delete({
       where: {
-        id: eraseInstance[0].id,
+        id: eraseInstance.id,
       },
     });
   }
