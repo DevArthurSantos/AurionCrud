@@ -20,7 +20,7 @@ export class FragmentController {
   constructor(private readonly FragmentService: FragmentService) { }
 
   @Post(':token/new/:instanceName')
-  async createFragment(@Req() request: Request, @Param() params: FragmenteRequestDTO) {
+  async createFragment(@Req() request: any, @Param() params: FragmenteRequestDTO) {
     const fragmentData: FragmenteCreateDTO = {
       ...params,
       data: request.body,
