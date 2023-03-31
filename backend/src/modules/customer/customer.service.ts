@@ -30,10 +30,32 @@ export class CustomerService {
   }
 
   async recoveryCustomerInfos(token: CustomerFindDTO) {
-    const customer = await this.Verification.CustomerVerificationToken(token, {
-      BadRequest: true,
-    });
+    await this.Verification.CustomerVerificationToken(token, { BadRequest: true, });
 
-    return { token: customer.token, requests: customer.requests };
+    const customer = await this.Prisma.customer.findFirst({
+      where: {
+        token: String(token)
+      }
+    })
+
+    const customerInstances = await this.Prisma.customerInstances.findMany({
+      where: {
+        customer_token: String(token)
+      },
+      include: {
+        instance: true
+      }
+    })
+
+    const instances = customerInstances.map(item => {
+      return { id: item.instance.id, instanceName: item.instance.instance_name }
+    })
+
+
+    return {
+      token,
+      requests: customer.requests,
+      instances
+    };
   }
 }
