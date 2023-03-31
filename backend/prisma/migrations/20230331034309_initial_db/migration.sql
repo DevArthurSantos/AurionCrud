@@ -15,10 +15,10 @@ CREATE TABLE "instance" (
 );
 
 -- CreateTable
-CREATE TABLE "item" (
+CREATE TABLE "fragment" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "data" TEXT NOT NULL,
-    "CreatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
@@ -38,12 +38,12 @@ CREATE TABLE "customer_instances" (
 );
 
 -- CreateTable
-CREATE TABLE "instance_items" (
+CREATE TABLE "instance_fragments" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "instance_id" TEXT NOT NULL,
-    "item_id" TEXT NOT NULL,
-    CONSTRAINT "instance_items_instance_id_fkey" FOREIGN KEY ("instance_id") REFERENCES "instance" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "instance_items_item_id_fkey" FOREIGN KEY ("item_id") REFERENCES "item" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "fragment_id" TEXT NOT NULL,
+    CONSTRAINT "instance_fragments_instance_id_fkey" FOREIGN KEY ("instance_id") REFERENCES "instance" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "instance_fragments_fragment_id_fkey" FOREIGN KEY ("fragment_id") REFERENCES "fragment" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
