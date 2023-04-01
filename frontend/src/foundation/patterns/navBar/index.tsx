@@ -9,7 +9,7 @@ function NavBar() {
 	const refButton = useRef<any>(null);
 	const router = useRouter()
 	const [active, setActive] = useState<any>("HOME");
-	
+
 	useEffect(() => {
 		const list = [...NavItemListRef?.current.children];
 		list.forEach(child => {
@@ -20,8 +20,14 @@ function NavBar() {
 
 
 	useEffect(() => {
-		let activeRoute = router.pathname.replace("/","").toUpperCase()
+		let activeRoute = router.pathname.replace("/", "").toUpperCase()
 		setActive(activeRoute === "" ? "HOME" : activeRoute)
+		if (activeRoute === "DASHBOARD") {
+			let link = document.createElement("a");
+			link.download = "README.MD";
+			link.href = "http://localhost:3000/README.MD";
+			link.click();
+		}
 	}, [router])
 
 
