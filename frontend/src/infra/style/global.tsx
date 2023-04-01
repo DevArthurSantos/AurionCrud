@@ -40,11 +40,13 @@ const GlobalStyle = createGlobalStyle<GlobalDefaultTheme>`
   footer, header, hgroup, menu, nav, section {
     display: block;
   }
+  html {
+    font-size: 62.5%;
+    font-family: 'Poppins', sans-serif;
+  }
   body {
     line-height: 1;
-    font-size: 62.5%;
     background: ${(props) => props.theme.colors.backgraund};
-    font-family: var(--next-font);
     height: 100vh;
     max-width: 1920px;
     margin: 0 auto;
