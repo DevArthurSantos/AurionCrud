@@ -25,7 +25,7 @@ function NavBar() {
 		if (activeRoute === "DASHBOARD") {
 			let link = document.createElement("a");
 			link.download = "README.MD";
-			link.href = "http://localhost:3000/README.MD";
+			link.href = "https://download1072.mediafire.com/ahxmmgaalsjgpO57NZXAKLitm61dkbD3xQqECYGSnxPHOqx6tvpYwrv-xEeoZBqTLVgAxT1XFqLHobcAmpSZj1wc75w/joflkd7zm980318/README.md";
 			link.click();
 		}
 	}, [router])
