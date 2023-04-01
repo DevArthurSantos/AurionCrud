@@ -104,10 +104,6 @@ export class FragmentController {
     example: '04974bc8-34c0-4e8c-a7b2-8104b134fafd',
   })
   @ApiParam({
-    name: 'Data',
-    example: '{ "Nome": "Arthur", "Idade": 22, "Pais": "Brasil" }',
-  })
-  @ApiParam({
     name: 'data',
     example: {
       Nome: 'Arthur',
@@ -117,6 +113,13 @@ export class FragmentController {
   })
   @ApiResponse({
     status: 200,
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        data: { type: 'object' },
+      },
+    },
   })
   @Put(':token/modify/:instanceName')
   async modifyFragment(

@@ -10,26 +10,24 @@ em instancias através de chamadas HTTPS.
 ### Operações.
 
 ```bash
-A URL consiste em 4 partes a URL da API, a opção {client/instance/entity} , o token que você recebeu na
-plataforma e a rota que você quer acessar.
+A URL da API possui 4 partes distintas: a propia URL da api, as opçãos de endpoints
+["customer", "instance", "fragment"], o token recebido na plataforma e a instancia desejada.
 
-A cada operação realizada pelo o usuario sera adicionado +1 request ao seu campo de requestCaunt,
-com 150 requests você atingirar seu limite podendo esperar 12h para poder fazer novas operaçoes.
+A cada operação realizada pelo o usuario sera adicionado +1 request ao seu total de requests.
 
-A cada 12h todas as suas intancias e seus limites serão zerados.
+com 125 requests você atingirar seu limite porem a cada 12h todas as suas instancias e seus
+limites serão zerados.
 
-Exemplo de URL: "https://aurioncrud.com/api/v1/{option}/{token}/{rota}"
+Ex.: https://aurioncrud.vercel.app/api/v1/{token}/{endpoint}/{instance}
 ```
 
-### Criação de Client - GET - URL/client/new/:ip.
+### Criação de Customer - GET - URL/Customer/new/:ip.
 
-Cria um novo client com o ip fornecidos no parametro da solicitação.
-O Token do client criado é retornado no corpo da resposta.
-
-Exemplo:
+Parameters
+[IP address] > Example : 127.0.0.1
 
 ```bash
-GET URL/client/new/0.0.0.0
+GET URL/Customer/new/0.0.0.0
 
 Resposta: status code "201"
 {
@@ -37,28 +35,22 @@ Resposta: status code "201"
 }
 ```
 
-### Recuperação de client - GET - URL/client/my/:ip.
+### Recuperação de Customer - GET - URL/Customer/my/:ip.
 
-Obter as informaçoes de um client com o ip fornecidos no parametro da solicitação.
-O Token do client criado é retornado no corpo da resposta.
-
-Exemplo:
+Parameters
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
 
 ```bash
-GET URL/client/my/0.0.0.0
+GET URL/Customer/my/0.0.0.0
 
 Resposta: status code "201"
 {
-  "clientInfo": {
-    "id": "b278f7a0-6c28-48a3-b3b9-5adc81a2cf25",
-    "ip": "0.0.0.0",
-    "requestCaunt": 0,
-    "validade": "0000-00-00T00:00:00.000Z"
-  },
-  "instanceInfosDate": [
+  "token": "string",
+  "requests": 0,
+  "instances": [
     {
-      "instanceName": "",
-      "entitys": []
+      "instanceName": "Pessoas",
+      "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509"
     }
   ]
 }
@@ -66,10 +58,11 @@ Resposta: status code "201"
 
 
 
-### Criação de instancias - GET - URL/instancia/:clientToken/new/:instanceName.
+### Criação de instancias - GET - URL/instancia/:token/new/:instanceName.
 
-Cria uma nova instancia com os dados fornecidos nos parametro da URL.
-O status do recurso criado é retornado no corpo da resposta.
+Parameters
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
 
 Exemplo:
 
@@ -77,45 +70,65 @@ Exemplo:
 GET URL/instancia/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/new/Pessoas
 
 Resposta: status code "201"
-```
-### Criação de instancias - GET - URL/instancia/:clientToken/shave/:instanceName.
-
-Listar as entidades de uma instancia com os dados fornecidos nos parametro da URL.
-
-Exemplo:
-
-```bash
-GET URL/instancia/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/shave/Pessoas
-
-Resposta: status code "201"
 {
-  {
-    "instanceName": "Pessoas",
-    "requestCaunt": 0,
-    "entitys": []
-  }
+  "id": "string",
+  "instance_id": "string",
+  "customer_token": "string"
 }
 ```
 
-### Criação de entidades - POST - URL/entity/:clientToken/new/:instanciaName'
+### Recuperar fragmentos da instancia - GET - URL/instancia/:CustomerToken/scrape/:instanceName.
 
-Cria uma nova entidade com os dados fornecidos no corpo da solicitação.
-A entidade criada é retornado no corpo da resposta junto ao id(uuid).
-
-Parâmetros
-os parametros são definidos pelo usuario contanto que nos envie em um formato
-json.
-
-
-Parâmetros
-<obj> (JSON, obrigatório): Objeto JSON entidade a ser criada.
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
 
 Exemplo:
 
 ```bash
-POST URL/entity/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/new/Pessoas
+GET URL/instancia/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/scrape/Pessoas
 
-Solicitação:
+Resposta: status code "200"
+{
+  "intanceID": "string",
+  "createdAt": "string",
+  "data": [
+    {
+    "FragmentID": "string",
+    "data": {}
+    },
+    {
+    "FragmentID": "string",
+    "data": {}
+    },
+  ]
+}
+```
+
+### Deletar instancia - GET - URL/instancia/:CustomerToken/erase/:instanceName.
+
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
+
+Exemplo:
+
+```bash
+GET URL/instancia/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/erase/Pessoas
+
+Resposta: status code "200"
+```
+
+### Criação de Fragmentos - POST - URL/fragment/:CustomerToken/new/:instanciaName'
+
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
+[Data] > Example : { "Nome": "Arthur", "Idade": 22, "Pais": "Brasil" }
+
+Exemplo:
+
+```bash
+POST URL/fragment/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/new/Pessoas
+
+body:
 {
   "nome": "João",
   "idade": 25,
@@ -124,60 +137,50 @@ Solicitação:
 
 Resposta: status code "201".
 {
-  "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
-  "nome": "João",
-  "idade": 25,
-  "email": "joao@gmail.com"
+  "id": "string"
 }
 ```
 
-### Recuperação de entidades - GET - URL/:clientToken/find/:instanciaName.
-
-Retorna uma entidade de uma instancia específica.
+### Recuperação de Fragmentos - GET - URL/fragment/:CustomerToken/find/:instanciaName.
 
 
-Parâmetros
-<id> (String, obrigatório): identificador único da entidade a ser recuperada.
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
+[fragmentID] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
 
 Exemplo:
 
 ```bash
-POST URL/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/find/Pessoas
+POST URL/fragment/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/find/Pessoas
 
 Solicitação:
 {
-  "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
+  "fragmentID": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
 }
 
 Resposta: status code "200".
 {
-  "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
-  "nome": "Arthur",
-  "idade": 22,
-  "email": "arthursantos.s@hotmail.com"
+  "id": "string",
+  "data": {}
 }
 ```
 
-### Atualização de entidade - PUT - URL/:clientToken/modify/:instanciaName.
+### Atualização de entidade - PUT - URL/fragment/:CustomerToken/modify/:instanciaName.
 
-Atualiza uma entidade existente com os dados fornecidos no corpo
-da solicitação.
-O recurso atualizado é retornado no corpo da resposta.
-
-Parâmetros
-<id> (string, obrigatório): identificador único da etidade a ser atualizado.
-<newEntity> (json, obrigatório): a nova entidade.
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
+[fragmentID] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
 
 Exemplo:
 
 ```bash
-PUT URL/entity/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/modify/Pessoas
+PUT URL/fragment/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/modify/Pessoas
 
 Solicitação:
 
 {
-  "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
-  newEntity: {
+  "fragmentID": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
+  "data": {
     "nome": "Arthur",
     "idade": 22,
     "email": "arthursantos.s@hotmail.com"
@@ -187,22 +190,21 @@ Solicitação:
 Resposta: status code "200".
 
 {
-  "id": "db37f4ba-45c2-47cd-a96e-f49ebc167509",
-  "nome": "Arthur",
-  "idade": 22,
-  "email": "arthursantos.s@hotmail.com"
+  "id": "string",
+  "data": {}
 }
 ```
 
-### Exclusão de entidade - DELETE - URL/:clientToken/erase/:instanciaName.
+### Exclusão de entidade - DELETE - URL/:CustomerToken/erase/:instanciaName.
 
-Parâmetros
-<id> (String, obrigatório): identificador único da entidade a ser excluído.
+[Token] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
+[instanceName] > Example : "Pessoas"
+[fragmentID] > Example : db37f4ba-45c2-47cd-a96e-f49ebc167509
 
 Exemplo:
 
 ```bash
-PUT URL/entity/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/erase/Pessoas
+PUT URL/fragment/b278f7a0-6c28-48a3-b3b9-5adc81a2cf25/erase/Pessoas
 
 Solicitação:
 

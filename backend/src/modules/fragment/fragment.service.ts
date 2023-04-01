@@ -68,7 +68,7 @@ export class FragmentService {
 
     await this.Verification.FragmentVerification(fragment, {BadRequest: true})
 
-    await this.Prisma.fragment.update({
+    const newFragment = await this.Prisma.fragment.update({
       where: {
         id: fragment.fragmentID
       },
@@ -77,6 +77,6 @@ export class FragmentService {
       }
     })
     
-    return;
+    return newFragment;
   }
 }
