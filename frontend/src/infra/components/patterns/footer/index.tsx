@@ -1,4 +1,4 @@
-import { FaFacebook, FaInstagram, FaTwitch } from "react-icons/fa"
+import { FaInstagram, FaDiscord, FaGithub } from "react-icons/fa"
 import Logo from "@/foundation/components/logo";
 const Footer = () => {
   return (
@@ -11,15 +11,15 @@ const Footer = () => {
             your project.
           </p>
           <div className="flex w-full mt-2 mb-8 -mx-2">
-            <div className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
-              <FaFacebook className="h-6 w-6" />
-            </div>
-            <div className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
-              <FaTwitch className="h-6 w-6" />
-            </div>
-            <div className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
-              <FaInstagram className="h-6 w-6" />
-            </div>
+            <a href="https://github.com/DevArthurSantos" target="_blank" className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
+              <FaGithub className="h-6 w-6 cursor-pointer" />
+            </a>
+            <a href="https://discord.gg/BPwWTdGNu3" target="_blank" className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
+              <FaDiscord className="h-6 w-6 cursor-pointer" />
+            </a>
+            <a href="https://www.instagram.com/dev.arthurs" target="_blank" className="mx-2 bg-white-500 rounded-full items-center justify-center flex p-2 shadow-md">
+              <FaInstagram className="h-6 w-6 cursor-pointer" />
+            </a>
           </div>
           <p className="text-gray-400">©{new Date().getFullYear()} - AurionGrup</p>
         </div>
