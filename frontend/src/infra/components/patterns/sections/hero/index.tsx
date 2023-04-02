@@ -33,7 +33,7 @@ const Hero = ({
           <div className="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
             <div>
               <h1 className="text-3xl lg:text-4xl xl:text-5xl font-medium text-black-600 leading-normal">
-                Want everything to be easy with ?
+                Want everything to be easy?
               </h1>
               <h2 className="flex gap-2 mt-2 items-center text-2xl lg:text-3xl xl:text-4xl font-medium text-black-600 leading-normal">
                 Then use <Logo />
