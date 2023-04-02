@@ -1,12 +1,10 @@
 import axios from "axios"
+import { useEffect, useRef, useState } from "react"
 
-import Layout from "@/infra/components/patterns/layout"
 import { ApiCustomerEnum } from "@/infra/utils/Global/env"
 import useGetIp from "@/infra/utils/Hooks/useGetIp"
-import { useEffect, useRef, useState } from "react"
 import Popup from "../../foundation/components/popup"
-import Hero from "@/infra/components/patterns/sections/hero"
-import Feature from "@/infra/components/patterns/sections/feature"
+import HomeSection from "@/infra/components/patterns/sections/home"
 
 
 type UserToken = {
@@ -49,16 +47,9 @@ function Home() {
   return (
     <>
       {popUpVisibility && <Popup />}
-      {!popUpVisibility &&
-        <>
-          <Layout>
-            <Hero />
-            <Feature />
-          </Layout>
-        </>
-      }
+      {!popUpVisibility && <HomeSection />}
     </>
-  )
+    )
 }
 
 export default Home

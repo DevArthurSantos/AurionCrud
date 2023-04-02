@@ -5,7 +5,7 @@ import DocsFooter from "@/foundation/components/footer/docsFooter";
 function DocSection() {
 
   return (
-    <section className="docsContainer">
+    <section id="DocSection" className="docsContainer">
       <DocsHeader />
       <div className="navBar">b</div>
       <div className="indexs">c</div>

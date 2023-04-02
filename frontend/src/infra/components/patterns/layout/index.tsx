@@ -8,11 +8,11 @@ export type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <>
+    <div className='font-poppins bg-gray-800'>
       <Header />
       {children}
       <Footer />
-    </>
+    </div>
   );
 };
 
