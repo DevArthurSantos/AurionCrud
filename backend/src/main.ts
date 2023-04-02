@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder } from '@nestjs/swagger';
 import { SwaggerModule } from '@nestjs/swagger/dist';
 import { AppModule } from './app.module';
-
 const line1 =
   'A URL da API possui 4 partes distintas: a propia `URL` da api, as opçãos de endpoints `["customer", "instance", "fragment"]`, o `token` recebido na plataforma e a `instancia` desejada.<br/><br/>';
 const line2 =
@@ -15,6 +14,7 @@ const descriptionText = [line1, line2, line3, line4];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setTitle('AurionCrud Docs')
