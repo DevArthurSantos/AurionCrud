@@ -1,5 +1,3 @@
-import Title, { TitleVariant, TitlehType, TitleWeight } from '@infra/components/typography/title';
-import * as S from './styled';
 
 export enum LogoSizing {
 	small = "small",
@@ -13,25 +11,28 @@ export type LogoProps = {
 
 function Logo({ sizing = LogoSizing.medium }: LogoProps) {
 	return (
-		<S.Div>
+		<>
 			{sizing === LogoSizing.small ?
 				<>
-					<Title type={TitlehType.OfCourse} variant={TitleVariant.Small} titleWeight={TitleWeight.Black}><strong>AURION</strong></Title>
-					<Title type={TitlehType.Orange} variant={TitleVariant.Small} titleWeight={TitleWeight.Black}><strong>CRUD</strong></Title>
+					<div className="text-sm md:text-sm text-white text-4xl font-bold">
+							AURION<span className="text-orange-500">CRUD</span>
+						</div>
 				</>
 
 				: sizing === LogoSizing.medium ?
 					<>
-						<Title type={TitlehType.OfCourse} variant={TitleVariant.Medium} titleWeight={TitleWeight.Black}><strong>AURION</strong></Title>
-						<Title type={TitlehType.Orange} variant={TitleVariant.Medium} titleWeight={TitleWeight.Black}><strong>CRUD</strong></Title>
+						<div className="text-3xl md:text-3xl text-white text-4xl font-bold">
+							AURION<span className="text-orange-500">CRUD</span>
+						</div>
 					</>
 					:
 					<>
-						<Title type={TitlehType.OfCourse} variant={TitleVariant.Large} titleWeight={TitleWeight.Black}><strong>AURION</strong></Title>
-						<Title type={TitlehType.Orange} variant={TitleVariant.Large} titleWeight={TitleWeight.Black}><strong>CRUD</strong></Title>
+						<div className="text-4xl md:text-4xl text-white text-4xl font-bold">
+							AURION<span className="text-orange-500">CRUD</span>
+						</div>
 					</>
 			}
-		</S.Div>
+		</>
 	);
 }
 

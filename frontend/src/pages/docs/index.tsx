@@ -1,7 +1,10 @@
-import DocsSection from "@/foundation/components/sections/docs";
+import DocSection from "@/infra/components/patterns/sections/docs"
 
-export default function Docs() {
-	return (
-		<DocsSection />
-	);
+
+function Docs() {
+
+  return (<> <DocSection /></>)
+
 }
+
+export default Docs
