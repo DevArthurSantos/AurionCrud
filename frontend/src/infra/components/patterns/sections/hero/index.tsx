@@ -1,24 +1,31 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import getScrollAnimation from "@infra/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "@/foundation/components/ScrollAnimationWrapper";
-import ButtonPrimary from "@/foundation/components/buttons/buttonOutline copy";
+import ButtonPrimary from "@/foundation/components/buttons/buttonPrimary";
 import Logo from "@/foundation/components/logo";
+import Dashboard from "@infra/components/patterns/modals/dashboard";
 
-const Hero = ({
-  listUser = [
-    {
-      name: "Users",
-      number: "0",
-      icon: "/assets/Icon/heroicons_sm-user.svg",
-    },
-    {
-      name: "Templates",
-      number: "3",
-      icon: "/assets/Icon/bx_bxs-server.svg",
-    },
-  ],
-}) => {
+const listUser = [
+  {
+    name: "Users",
+    number: "0",
+    icon: "/assets/Icon/heroicons_sm-user.svg",
+  },
+  {
+    name: "Templates",
+    number: "3",
+    icon: "/assets/Icon/bx_bxs-server.svg",
+  },
+]
+
+function Hero() {
+  const [dashboard, setDashboard] = useState(false)
+
+  function handlerDashboard() {
+    setDashboard(!dashboard)
+  }
+
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
   return (
@@ -26,6 +33,7 @@ const Hero = ({
       className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto"
       id="about"
     >
+      {dashboard && <Dashboard handlerDashboard={handlerDashboard} />}
       <ScrollAnimationWrapper>
         <motion.div
           className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16"
@@ -40,9 +48,11 @@ const Hero = ({
               </h2>
             </div>
             <p className="text-black-500 mt-4 mb-4">
-            Build web or mobile apps running operations CRUDS.
+              Build web or mobile apps running operations CRUDS.
             </p>
-            <ButtonPrimary>Get Your Token</ButtonPrimary>
+            <a onClick={handlerDashboard}>
+              <ButtonPrimary optionalClass="bg-orange-500">Get Your Token</ButtonPrimary>
+            </a>
           </div>
           <div className="flex w-full">
             <motion.div className="h-full w-full" variants={scrollAnimation}>
