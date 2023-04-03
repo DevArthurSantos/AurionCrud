@@ -4,7 +4,7 @@ import Logo from "@/foundation/components/logo";
 import ButtonOutline from "@/foundation/components/buttons/buttonOutline";
 
 const Header = () => {
-  const [activeLink, setActiveLink] = useState("");
+  const [activeLink, setActiveLink] = useState("about");
   const [scrollActive, setScrollActive] = useState(false);
   useEffect(() => {
     window.addEventListener("scroll", () => {
