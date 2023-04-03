@@ -5,6 +5,7 @@ import { ApiCustomerEnum } from "@/infra/utils/Global/env"
 import useGetIp from "@/infra/utils/Hooks/useGetIp"
 import Popup from "../../foundation/components/popup"
 import HomeSection from "@/infra/components/patterns/sections/home"
+import { useAppContext } from "@/infra/utils/Hooks/useAppContext"
 
 
 type UserToken = {
@@ -16,6 +17,7 @@ function Home() {
   const userIp = useGetIp();
   const [data, setData] = useState<UserToken>();
   const [popUpVisibility, setPopUpVisibility] = useState<boolean>(true)
+  const { state } = useAppContext();
 
   useEffect(() => {
     if (userIp) {
@@ -35,12 +37,13 @@ function Home() {
 
     setTimeout(() => {
       setPopUpVisibility(!popUpVisibility)
-    }, 3799);
+    }, 4100);
 
   }, [])
 
   useEffect(() => {
-    console.log(data)
+    if (!data) return;
+    state.token = data.token;
   }, [data, inputTokenRef]);
 
 
@@ -49,7 +52,7 @@ function Home() {
       {popUpVisibility && <Popup />}
       {!popUpVisibility && <HomeSection />}
     </>
-    )
+  )
 }
 
 export default Home
