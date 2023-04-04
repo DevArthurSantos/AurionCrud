@@ -3,8 +3,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { VerificationService } from '../verification/verification.service';
-import { TemplateDTO } from './dto/templateSet.dto';
+import { TemplateSetDTO } from './dto/templateSet.dto';
 import models from "./models/index"
+
+
 
 @Injectable()
 export class TemplateService {
@@ -13,16 +15,29 @@ export class TemplateService {
     private Verification: VerificationService,
   ) { }
 
-  async setTemplate({ instanceID, templateName, token }: TemplateDTO) {
+  async setTemplate({ instanceID, templateName, token }: TemplateSetDTO) {
     await this.Verification.requestsVerification(token)
-    const instance = await this.Verification.InstanceVerificationForID({
+    await this.Verification.InstanceVerificationForID({
       token,
       instanceID,
     });
 
-   
-    
-    models[templateName].forEach( async template => {
+
+
+    const { data, type } = await this.Prisma.template.findFirst({
+      where: {
+        type: templateName
+      }
+    })
+
+    const template = {
+      template: {
+        type,
+        data: JSON.parse(data.toString('utf8'))
+      }
+    }
+
+    template.template.data.forEach(async template => {
       await this.Prisma.instanceFragments.create({
         data: {
           fragment: {
@@ -38,6 +53,24 @@ export class TemplateService {
         },
       })
     })
-    return;
+
+    return
+  }
+
+  async createTemplate(templateName: string) {
+
+
+    const newTemplte = await this.Prisma.template.create({
+      data: {
+        type: templateName,
+        data: Buffer.from(JSON.stringify(models[templateName])),
+      }
+    })
+
+    return {
+      id: newTemplte.id,
+      type: templateName,
+      data: JSON.parse(newTemplte.data.toString('utf8'))
+    }
   }
 }
