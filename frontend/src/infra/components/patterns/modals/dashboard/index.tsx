@@ -155,14 +155,14 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
 
 
       {createInstanceModal && <InstanceCreate
-        setCreateInstanceModal={() => setCreateInstanceModal(!createInstanceModal)}
+        setCreateInstanceModal={() => handlerDashboard()}
         handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
         templateName={templateName}
       />
       }
 
       {selectInstanceModal && <InstanceSelectModal
-        setSelectInstanceModal={() => setSelectInstanceModal(!selectInstanceModal)}
+        setSelectInstanceModal={() => handlerDashboard()}
         handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
         templateName={templateName}
         instances={instances}
