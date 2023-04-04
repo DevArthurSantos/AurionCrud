@@ -14,7 +14,9 @@ const descriptionText = [line1, line2, line3, line4];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+  });
 
   const config = new DocumentBuilder()
     .setTitle('AurionCrud Docs')
