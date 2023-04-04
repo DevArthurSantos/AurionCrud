@@ -1,10 +1,12 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import getScrollAnimation from "@infra/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "@/foundation/components/ScrollAnimationWrapper";
 import ButtonPrimary from "@/foundation/components/buttons/buttonPrimary";
 import Logo from "@/foundation/components/logo";
 import Dashboard from "@infra/components/patterns/modals/dashboard";
+import { CustomerOptions, useAPI, userInfos } from "@/infra/utils/Global/api";
+import { useAppContext } from "@/infra/utils/Hooks/useAppContext";
 
 const listUser = [
   {
@@ -21,10 +23,22 @@ const listUser = [
 
 function Hero() {
   const [dashboard, setDashboard] = useState(false)
+  const [userInfos, setUserInfos] = useState<userInfos>()
+
+  const { state } = useAppContext();
 
   function handlerDashboard() {
     setDashboard(!dashboard)
   }
+  const API = new useAPI()
+
+  useEffect(() => {
+    if (!dashboard) return
+    async function getInfos() {
+      const data = await API.getCUSTOMER({ token: state.token, option: CustomerOptions.my })
+      setUserInfos(data)
+    } getInfos()
+  }, [dashboard])
 
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
 
@@ -33,7 +47,7 @@ function Hero() {
       className="max-w-screen-xl mt-24 px-8 xl:px-16 mx-auto"
       id="about"
     >
-      {dashboard && <Dashboard handlerDashboard={handlerDashboard} />}
+      {dashboard && <Dashboard userInfos={userInfos} handlerDashboard={handlerDashboard} />}
       <ScrollAnimationWrapper>
         <motion.div
           className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:py-16"

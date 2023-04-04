@@ -41,6 +41,25 @@
   }
 }
 
+@keyframes fade-warning {
+  0% {
+    transform: translateX(350px);
+  }
+
+  25% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  75% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(350px);
+  }
+}
+
 .copy-url-success{
   cursor: wait;
 }
@@ -53,6 +72,9 @@
 }
 .animate-fade-out {
   animation: fade-out 1s linear;
+}
+.animate-fade-warning {
+  animation: fade-warning 3.4s linear;
 }
 
 *::-webkit-scrollbar-track {

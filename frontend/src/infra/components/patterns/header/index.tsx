@@ -60,7 +60,7 @@ const Header = () => {
             >
               Feature
             </LinkScroll>
-            <LinkScroll
+            {/* <LinkScroll
               activeClass="active"
               to="dashboard"
               spy={true}
@@ -77,7 +77,7 @@ const Header = () => {
               }
             >
               Dashboard
-            </LinkScroll>
+            </LinkScroll> */}
           </ul>
           <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
             <a href="/docs">

@@ -1,30 +1,30 @@
-import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 
-import { ApiCustomerEnum } from "@/infra/utils/Global/env"
+import { CustomerOptions, useAPI } from "@/infra/utils/Global/api"
 import useGetIp from "@/infra/utils/Hooks/useGetIp"
 import Popup from "../../foundation/components/popup"
 import HomeSection from "@/infra/components/patterns/sections/home"
 import { useAppContext } from "@/infra/utils/Hooks/useAppContext"
 
-
-type UserToken = {
-  token: string
+type token = {
+  token?: string
 }
 
 function Home() {
-  const inputTokenRef = useRef<HTMLInputElement>(null)
+  const inputtokenRef = useRef<HTMLInputElement>(null)
   const userIp = useGetIp();
-  const [data, setData] = useState<UserToken>();
+  const [token, settoken] = useState<token>();
   const [popUpVisibility, setPopUpVisibility] = useState<boolean>(true)
   const { state } = useAppContext();
+
+  const API = new useAPI()
 
   useEffect(() => {
     if (userIp) {
       try {
         async function fetchData() {
-          const response = await axios.get<UserToken>(`${ApiCustomerEnum.new}${userIp}`);
-          setData(response.data);
+          const data = await API.getCUSTOMER({ ip: userIp, option: CustomerOptions.new })
+          settoken(data)
         }
         fetchData();
       } catch (e) {
@@ -42,9 +42,9 @@ function Home() {
   }, [])
 
   useEffect(() => {
-    if (!data) return;
-    state.token = data.token;
-  }, [data, inputTokenRef]);
+    if (!token) return;
+    state.token = String(token.token);
+  }, [token, inputtokenRef]);
 
 
   return (

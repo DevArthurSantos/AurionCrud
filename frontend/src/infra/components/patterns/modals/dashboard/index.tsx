@@ -1,19 +1,41 @@
 import ButtonPrimary from "@/foundation/components/buttons/buttonPrimary"
 import InputText from "@/foundation/components/inputs/text"
 import Logo, { LogoSizing } from "@/foundation/components/logo"
+import WarningsPopUp from "@/foundation/components/popup/warning"
 import { useAppContext } from "@/infra/utils/Hooks/useAppContext"
 import { useState } from "react"
 import { FaCopy } from "react-icons/fa"
-
+import warninhSong from "@public/assets/songs/warning.mp3"
+import InstanceCreate from "../intanceCreate"
+import { useAPI } from "@/infra/utils/Global/api"
+import InstanceSelectModal from "../InstanceSelectModal"
 
 type DashboardProps = {
   handlerDashboard(): void
+  userInfos?: {
+    token?: string,
+    requests?: number,
+    instances?: []
+  }
 }
 
-function Dashboard({ handlerDashboard }: DashboardProps) {
+export type InstanceProps = {
+  id: string
+  instanceName: string
+}
+
+
+function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
 
   const { state } = useAppContext()
   const [dashboardTemplates, setDashboardTemplates] = useState(false)
+  const [warningsPopUpText, setWarningsPopUpText] = useState("")
+  const [createInstanceModal, setCreateInstanceModal] = useState(false)
+  const [selectInstanceModal, setSelectInstanceModal] = useState(false)
+  const [instances, setInstances] = useState<InstanceProps[]>()
+  const [templateName, setTemplateName] = useState("")
+  const templatesList = ["News", "Products", "Songs"]
+
 
   function closeDashboard() {
     state.dashboard = false
@@ -28,6 +50,35 @@ function Dashboard({ handlerDashboard }: DashboardProps) {
     setTimeout(() => {
       document.getElementById("copyUrl")?.classList.remove("copy-url-success")
     }, 100);
+  }
+
+  function handlerWarningsPopUpText(text: string) {
+    setWarningsPopUpText(text)
+    setCreateInstanceModal(true)
+    const audio = new Audio(warninhSong)
+    audio.volume = .1
+    audio.play()
+    setTimeout(() => {
+      setWarningsPopUpText("")
+    }, 3500);
+  }
+
+  function getInstances() {
+    if (!userInfos?.instances?.length || userInfos.instances.length < 0) {
+      handlerWarningsPopUpText("voce não tem instancias")
+      return
+    }
+
+    return userInfos.instances
+  }
+
+  async function getTemplates(template: string) {
+    setTemplateName(template.toLowerCase())
+    const instancesList = getInstances()
+    if (instancesList) {
+      setInstances(instancesList)
+      setSelectInstanceModal(!selectInstanceModal)
+    }
   }
 
   return (
@@ -52,17 +103,26 @@ function Dashboard({ handlerDashboard }: DashboardProps) {
                       Templates
                     </ButtonPrimary>
                   </a>
+
                   <ul className={"absolute translate-y-14 py-2 gap-2 flex flex-col w-[80%] text-center bg-black-500 rounded-md mt-1 text-sm text-white-300 "
                     + (dashboardTemplates ? "animate-fade-in opacity-1" : "opacity-0")}>
-                    <li className="py-3 cursor-pointer hover:text-orange-500" >
-                      Songs
-                    </li>
-                    <li className="py-3 cursor-pointer hover:text-orange-500" >
-                      News
-                    </li>
-                    <li className="py-3 cursor-pointer hover:text-orange-500" >
-                      Products
-                    </li>
+
+                    {
+
+                      templatesList.map((templateName) => {
+                        return (
+                          <li 
+                          onClick={() => getTemplates(templateName)}
+                          className="py-3 cursor-pointer hover:text-orange-500"
+                          key={templateName}
+                          >
+                            {templateName}
+                          </li>
+                        )
+                      })
+
+                    }
+
                   </ul>
                 </div>
 
@@ -93,7 +153,25 @@ function Dashboard({ handlerDashboard }: DashboardProps) {
         </div>
       </div>
 
+
+      {createInstanceModal && <InstanceCreate
+        setCreateInstanceModal={() => setCreateInstanceModal(!createInstanceModal)}
+        handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
+        templateName={templateName}
+      />
+      }
+
+      {selectInstanceModal && <InstanceSelectModal
+        setSelectInstanceModal={() => setSelectInstanceModal(!selectInstanceModal)}
+        handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
+        templateName={templateName}
+        instances={instances}
+      />
+      }
+
+      {warningsPopUpText && <WarningsPopUp text={warningsPopUpText} />}
     </div>
+
   )
 }
 
