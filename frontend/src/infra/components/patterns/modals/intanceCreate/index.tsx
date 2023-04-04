@@ -22,7 +22,7 @@ function InstanceCreate({ setCreateInstanceModal, handlerWarningsPopUpText, temp
   async function setTempalte(token: string, instanceID: string, templateName: string) {
 
     document.getElementById("createInstance")?.classList.remove("copy-url-success")
-    setCreateInstanceModal()
+
     handlerWarningsPopUpText()
 
     return await api.setTEMPLATE({ token, instanceID, templateName })
@@ -30,6 +30,7 @@ function InstanceCreate({ setCreateInstanceModal, handlerWarningsPopUpText, temp
   }
 
   async function createAndSetTempalte() {
+    setCreateInstanceModal()
     const instance = await createInstance()
     document.getElementById("createInstance")?.classList.add("copy-url-success")
 
