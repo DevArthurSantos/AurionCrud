@@ -31,6 +31,7 @@ export class CustomerService {
 
   async recoveryCustomerInfos(token: CustomerFindDTO) {
     await this.Verification.CustomerVerificationToken(token, { BadRequest: true, });
+    await this.Verification.requestsVerification(token.token)
 
     const customer = await this.Prisma.customer.findFirst({
       where: {

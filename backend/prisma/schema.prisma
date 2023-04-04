@@ -39,7 +39,7 @@ model Instance {
 
 model Fragment {
   id                String              @id @default(uuid())
-  data              String
+  data              Bytes
   createdAt         DateTime            @default(now())
   InstanceFragments InstanceFragments[]
 
@@ -49,7 +49,7 @@ model Fragment {
 model Template {
   id   String @id @default(uuid())
   type String
-  data String
+  data Bytes
 
   @@map("template")
 }

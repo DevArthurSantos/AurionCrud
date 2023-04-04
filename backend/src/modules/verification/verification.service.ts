@@ -9,7 +9,7 @@ import { VerificationDTO } from './dto/verification.dto';
 
 @Injectable()
 export class VerificationService {
-  constructor(private Prisma: PrismaService) {}
+  constructor(private Prisma: PrismaService) { }
 
   async CustomerVerificationIP(
     customer: CustomerVerificationDTO,
@@ -32,10 +32,10 @@ export class VerificationService {
     customer: CustomerVerificationDTO,
     BadRequest: VerificationDTO,
   ) {
-    
+
     const customerExists = await this.Prisma.customer.findFirst({
       where: {
-        token: String(customer.token || customer ),
+        token: String(customer.token || customer),
       },
     });
 
@@ -47,9 +47,9 @@ export class VerificationService {
   }
 
   async InstanceVerification(instance: InstanceVerificationDTO, { BadRequest, ExistsOrNoExist }: VerificationDTO) {
-    
+
     const customer = await this.CustomerVerificationToken({ token: instance.token }, { BadRequest: true });
-   
+
     const instanceExists = await this.Prisma.instance.findMany({
       where: {
         instance_name: instance.instanceName,
@@ -81,7 +81,7 @@ export class VerificationService {
     return instanceExists[0];
   }
 
-  async FragmentVerification( fragment: FragmentVerificationDTO, { BadRequest }: VerificationDTO ) {
+  async FragmentVerification(fragment: FragmentVerificationDTO, { BadRequest }: VerificationDTO) {
 
     const customer = await this.InstanceVerification(fragment, { BadRequest: true, ExistsOrNoExist: 'not-existing' });;
 
@@ -97,4 +97,45 @@ export class VerificationService {
 
     return fragmentExists;
   }
+
+  async InstanceVerificationForID({ token, instanceID }: { token: string, instanceID: string }) {
+
+    this.CustomerVerificationToken({ token }, { BadRequest: true, ExistsOrNoExist: 'existing' })
+
+    const intance = await this.Prisma.instance.findFirst({
+      where: {
+        id: instanceID
+      }
+    })
+
+    if (!intance) {
+      throw new BadRequestException('A instacia não existe!');
+    }
+
+    return intance
+  }
+
+
+  async requestsVerification(token:string){
+
+    const customer = await this.Prisma.customer.findFirst({
+      where:{
+        token
+      }
+    })
+
+    if(customer.requests === 150) throw new BadRequestException('Limite de requisições atingido.');
+
+    await this.Prisma.customer.update({
+      data:{
+        requests: Number(customer.requests + 1)
+      },
+      where:{
+        id: customer.id
+      }
+    })
+    
+  }
+
+
 }

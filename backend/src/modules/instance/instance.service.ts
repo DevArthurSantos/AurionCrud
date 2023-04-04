@@ -14,6 +14,7 @@ export class InstanceService {
   ) {}
 
   async createInstance(instance: InstanceCreateDTO) {
+    await this.Verification.requestsVerification(instance.token)
     await this.Verification.InstanceVerification(instance, {
       BadRequest: true,
       ExistsOrNoExist: 'existing',
@@ -38,6 +39,7 @@ export class InstanceService {
   }
 
   async scrapeInstance(instance: InstanceDTO) {
+    await this.Verification.requestsVerification(instance.token)
     const instanceFind = await this.Verification.InstanceVerification(
       instance,
       { BadRequest: true, ExistsOrNoExist: 'not-existing' },
@@ -58,7 +60,7 @@ export class InstanceService {
       return {
         intanceID: instance.fragment.id,
         createdAt: instance.fragment.createdAt,
-        data: JSON.parse(instance.fragment.data)
+        data: JSON.parse(instance.fragment.data.toString('utf8'))
       }
     })
 
@@ -66,6 +68,7 @@ export class InstanceService {
   }
 
   async eraseInstance(instance: InstanceShaveDTO) {
+    await this.Verification.requestsVerification(instance.token)
     const eraseInstance = await this.Verification.InstanceVerification(
       instance,
       { BadRequest: true, ExistsOrNoExist: 'not-existing' },
