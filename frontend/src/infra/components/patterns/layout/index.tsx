@@ -6,7 +6,11 @@ export type LayoutProps = {
   children: ReactNode
 }
 
+
+
+
 const Layout = ({ children }: LayoutProps) => {
+  
   return (
     <div className='font-poppins bg-gray-800'>
       <Header />

@@ -54,7 +54,6 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
 
   function handlerWarningsPopUpText(text: string) {
     setWarningsPopUpText(text)
-    setCreateInstanceModal(true)
     const audio = new Audio(warninhSong)
     audio.volume = .1
     audio.play()
@@ -66,6 +65,7 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
   function getInstances() {
     if (!userInfos?.instances?.length || userInfos.instances.length < 0) {
       handlerWarningsPopUpText("voce não tem instancias")
+      setCreateInstanceModal(true)
       return
     }
 
@@ -155,14 +155,14 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
 
 
       {createInstanceModal && <InstanceCreate
-        setCreateInstanceModal={() => handlerDashboard()}
+        setCreateInstanceModal={() => setCreateInstanceModal(!createInstanceModal)}
         handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
         templateName={templateName}
       />
       }
 
       {selectInstanceModal && <InstanceSelectModal
-        setSelectInstanceModal={() => handlerDashboard()}
+        setSelectInstanceModal={() => setSelectInstanceModal(!selectInstanceModal)}
         handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
         templateName={templateName}
         instances={instances}
