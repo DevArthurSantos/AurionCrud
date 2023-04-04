@@ -33,6 +33,9 @@ const Header = () => {
               onSetActive={() => {
                 setActiveLink("about");
               }}
+              onClick={() => {
+                setActiveLink("about");
+              }}
               className={
                 "px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative" +
                 (activeLink === "about"
@@ -49,6 +52,9 @@ const Header = () => {
               smooth={true}
               duration={1000}
               onSetActive={() => {
+                setActiveLink("feature");
+              }}
+              onClick={() => {
                 setActiveLink("feature");
               }}
               className={
