@@ -44,11 +44,11 @@ export type TemplateProps = {
 
 export class useAPI {
 
-  private URL_API = "https://aurioncrudbackend.vercel.app/api/v1"
-  private API_CUSTOMER = "https://aurioncrudbackend.vercel.app/api/v1/customer"
-  private API_INSTANCE = "https://aurioncrudbackend.vercel.app/api/v1/instance"
-  private API_FRAGMENT = "https://aurioncrudbackend.vercel.app/api/v1/fragment"
-  private API_TEMPLATE = "https://aurioncrudbackend.vercel.app/api/v1/template"
+  private URL_API = "https://aurioncrud.vercel.app/api/v1"
+  private API_CUSTOMER = "https://aurioncrud.vercel.app/api/v1/customer"
+  private API_INSTANCE = "https://aurioncrud.vercel.app/api/v1/instance"
+  private API_FRAGMENT = "https://aurioncrud.vercel.app/api/v1/fragment"
+  private API_TEMPLATE = "https://aurioncrud.vercel.app/api/v1/template"
   constructor() {
 
   }
