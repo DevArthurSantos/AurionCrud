@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { CorsMiddleware } from './middleware/cors/cors.middleware';
 import { CustomerController } from './modules/customer/customer.controller';
 import { CustomerService } from './modules/customer/customer.service';
 import { PrismaService } from './modules/database/prisma.service';
@@ -27,4 +28,8 @@ import { VerificationService } from './modules/verification/verification.service
     TemplateService,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorsMiddleware).forRoutes('*');
+  }
+}
