@@ -86,8 +86,7 @@ export class useAPI {
   async getFRAGMENT({ token, ip }: FragmentProps) {
   }
   async setTEMPLATE({ token, instanceID, templateName }: TemplateProps) {
-    console.log(token, instanceID, templateName)
-    const response = await axios.put(`${this.API_TEMPLATE}/${token}/${instanceID}/${templateName}`);
+    const response = await axios.get(`${this.API_TEMPLATE}/${token}/${instanceID}/${templateName}`);
     return
   }
 
