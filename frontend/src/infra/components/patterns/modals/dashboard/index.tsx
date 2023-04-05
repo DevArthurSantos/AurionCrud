@@ -82,12 +82,12 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
   }
 
   return (
-    <div className="flex absolute top-0 left-0 z-50 items-center justify-center h-screen w-[100%]">
+    <div className="flex backdrop-blur-[2px] overflow-hidden bg-black-600 bg-opacity-[.5] absolute top-0 left-0 z-50 items-center justify-center h-screen w-[100%]">
       {/* <!-- Main modal --> */}
-      <div tabIndex={-1} className="p-2 bg-white-500 overflow-x-hidden overflow-y-auto md:inset-0">
+      <div tabIndex={-1} className="p-2 overflow-hidden md:inset-0">
         <div className=" w-full h-full max-w-3xl md:h-auto">
           {/* <!-- Modal content --> */}
-          <div className=" bg-white rounded-lg shadow">
+          <div className=" bg-white rounded-md bg-white-500 shadow-sm">
             {/* <!-- Modal header --> */}
             <div className="flex items-baseline justify-between p-4 border-b rounded-t ">
 
@@ -111,10 +111,10 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
 
                       templatesList.map((templateName) => {
                         return (
-                          <li 
-                          onClick={() => getTemplates(templateName)}
-                          className="py-3 cursor-pointer hover:text-orange-500"
-                          key={templateName}
+                          <li
+                            onClick={() => getTemplates(templateName)}
+                            className="py-3 cursor-pointer hover:text-orange-500"
+                            key={templateName}
                           >
                             {templateName}
                           </li>
@@ -162,8 +162,14 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
       }
 
       {selectInstanceModal && <InstanceSelectModal
-        setSelectInstanceModal={() => setSelectInstanceModal(!selectInstanceModal)}
-        handlerWarningsPopUpText={() => handlerWarningsPopUpText("Dados propagados com sucesso")}
+        setSelectInstanceModal={() => {
+          handlerDashboardTemplates()
+          setSelectInstanceModal(!selectInstanceModal)
+        }}
+        handlerWarningsPopUpText={() => {
+          handlerDashboardTemplates()
+          handlerWarningsPopUpText("Dados propagados com sucesso")
+        }}
         templateName={templateName}
         instances={instances}
       />
