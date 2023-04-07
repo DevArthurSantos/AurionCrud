@@ -2,6 +2,7 @@ import Logo, { LogoSizing } from "../logo";
 
 
 function Popup() {
+
   return (
     <>
       <div className="animate-fade-in-out opacity-0 text-black-600 bg-white-300 h-screen w-full flex items-center justify-center">

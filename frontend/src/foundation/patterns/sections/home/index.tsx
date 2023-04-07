@@ -1,6 +1,6 @@
-import Layout from "@/infra/components/patterns/layout"
-import Hero from "@/infra/components/patterns/sections/hero"
-import Feature from "@/infra/components/patterns/sections/feature"
+import Layout from "@foundation//patterns/layout"
+import Hero from "@foundation//patterns/sections/hero"
+import Feature from "@foundation//patterns/sections/feature"
 
 
 function HomeSection() {

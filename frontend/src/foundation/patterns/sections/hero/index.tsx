@@ -4,7 +4,7 @@ import getScrollAnimation from "@infra/utils/getScrollAnimation";
 import ScrollAnimationWrapper from "@/foundation/components/ScrollAnimationWrapper";
 import ButtonPrimary from "@/foundation/components/buttons/buttonPrimary";
 import Logo from "@/foundation/components/logo";
-import Dashboard from "@infra/components/patterns/modals/dashboard";
+import Dashboard from "@foundation/patterns/modals/dashboard";
 import { CustomerOptions, useAPI, userInfos } from "@/infra/utils/Global/api";
 import { useAppContext } from "@/infra/utils/Hooks/useAppContext";
 

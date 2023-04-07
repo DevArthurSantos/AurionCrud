@@ -1,4 +1,4 @@
-import DocSection from "@/infra/components/patterns/sections/docs"
+import DocSection from "@foundation/patterns/sections/docs"
 
 
 function Docs() {

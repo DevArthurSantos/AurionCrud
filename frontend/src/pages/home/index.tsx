@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 
 import { CustomerOptions, useAPI } from "@/infra/utils/Global/api"
 import useGetIp from "@/infra/utils/Hooks/useGetIp"
-import Popup from "../../foundation/components/popup"
-import HomeSection from "@/infra/components/patterns/sections/home"
+import Popup from "@foundation/components/popup"
+import HomeSection from "@foundation/patterns/sections/home"
 import { useAppContext } from "@/infra/utils/Hooks/useAppContext"
 
 type token = {
