@@ -5,9 +5,8 @@ import WarningsPopUp from "@/foundation/components/popup/warning"
 import { useAppContext } from "@/infra/utils/Hooks/useAppContext"
 import { useState } from "react"
 import { FaCopy } from "react-icons/fa"
-import warninhSong from "@public/assets/songs/warning.mp3"
+import warninhSong from "@infra/songs/warning.mp3"
 import InstanceCreate from "../intanceCreate"
-import { useAPI } from "@/infra/utils/Global/api"
 import InstanceSelectModal from "../InstanceSelectModal"
 
 type DashboardProps = {
@@ -35,11 +34,6 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
   const [instances, setInstances] = useState<InstanceProps[]>()
   const [templateName, setTemplateName] = useState("")
   const templatesList = ["News", "Products", "Songs"]
-
-
-  function closeDashboard() {
-    state.dashboard = false
-  }
 
   function handlerDashboardTemplates() {
     setDashboardTemplates(!dashboardTemplates)
@@ -82,7 +76,7 @@ function Dashboard({ handlerDashboard, userInfos }: DashboardProps) {
   }
 
   return (
-    <div className="flex backdrop-blur-[2px] overflow-hidden bg-black-600 bg-opacity-[.5] absolute top-0 left-0 z-50 items-center justify-center h-screen w-[100%]">
+    <div className="flex backdrop-blur-[2px] overflow-hidden bg-black-600 bg-opacity-[.5] fixed top-0 left-0 z-50 items-center justify-center h-screen w-[100%]">
       {/* <!-- Main modal --> */}
       <div className="w-full h-full max-w-3xl md:h-auto">
         {/* <!-- Modal content --> */}
