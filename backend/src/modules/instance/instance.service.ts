@@ -33,6 +33,9 @@ export class InstanceService {
           },
         },
       },
+      select: {
+        instance_id: true
+      }
     });
 
     return newInstace;
