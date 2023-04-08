@@ -50,7 +50,7 @@ Experimente o AurionCrud hoje mesmo e crie a sua própria API para o seu projeto
 ## ⛏️ Construído usando
 
 - [NodeJs](https://nodejs.org/en/) - Ambiente do servidor.
-- [SQLite](https://www.mysql.com/) - Base de dados.
+- [MySQL](https://www.mysql.com/) - Base de dados.
 - [NestJs](https://nestjs.com/) - Estrutura do servidor > BackEnd.
 - [NextJs](https://nextjs.org/) - Framework para a web > FrontEnd.
 - [Prisma](https://www.prisma.io/) - TypeScript ORM.
